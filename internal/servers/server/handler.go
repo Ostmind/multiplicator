@@ -53,7 +53,9 @@ func generateNumber(rtp float64) float64 {
 		1 / (1 - p * F(Max при rtp = 1))
 	*/
 
-	multiplierVal := 1 / (1 - p*(1-1/10000))
+	fMax := 1 - 1/10000.0
+
+	multiplierVal := 1 / (1 - p*fMax)
 
 	//если вдруг multiplierVal пробил 10000, тогда ограничиваем его 10000
 	if multiplierVal > 10000 {
