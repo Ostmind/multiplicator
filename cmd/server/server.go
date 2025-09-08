@@ -7,7 +7,8 @@ import (
 	"github.com/Ostmind/multiplicator/internal/servers/logger"
 	"github.com/Ostmind/multiplicator/internal/servers/server"
 	"log"
-	"time"
+	"os"
+	"os/signal"
 )
 
 func main() {
@@ -24,10 +25,13 @@ func main() {
 
 	go srv.Run(cfg.Host, cfg.Port)
 
+	stopChan := make(chan os.Signal, 1)
+	signal.Notify(stopChan, os.Interrupt)
+
+	<-stopChan
+	sloger.Info("Received interrupt signal")
 	ctx, cancel := context.WithTimeout(context.Background(), cfg.ServerShutdownTimeout)
 	defer cancel()
-
-	time.Sleep(cfg.ServerShutdownTimeout)
 
 	srv.Stop(ctx)
 }

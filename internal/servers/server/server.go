@@ -32,7 +32,7 @@ func New(logger *slog.Logger, rtp float64) *Server {
 	}
 }
 func (s Server) Run(serverHost string, serverPort int) {
-	s.logger.Info("Server is running on: ", "Host: ", serverHost, "Port: ", serverPort)
+	s.logger.Info("Server is running on: ", "Host: ", serverHost, "Port: ", serverPort, "rtp", s.rtp)
 
 	if err := s.server.Start(fmt.Sprintf("%s:%d", serverHost, serverPort)); err != nil {
 		if !errors.Is(err, http.ErrServerClosed) {
