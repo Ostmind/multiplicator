@@ -1,27 +1,19 @@
-package main
+package server
 
 import (
 	"context"
-	"flag"
 	"github.com/Ostmind/multiplicator/internal/servers/config"
 	"github.com/Ostmind/multiplicator/internal/servers/logger"
 	"github.com/Ostmind/multiplicator/internal/servers/server"
-	"log"
 	"os"
 	"os/signal"
 )
 
-func main() {
-	rtpPtr := flag.Float64("rtp", 0, "rtp parameter (must be > 0 and ≤ 1.0)")
-	flag.Parse()
-
-	if *rtpPtr <= 0 || *rtpPtr > 1.0 {
-		log.Fatal("rtp должен быть > 0 и ≤ 1.0")
-	}
+func StartServer(rtp float64) {
 
 	cfg := config.MustNew()
 	sloger := logger.SetupLogger(cfg.EnvType)
-	srv := server.New(sloger, *rtpPtr)
+	srv := server.New(sloger, rtp)
 
 	go srv.Run(cfg.Host, cfg.Port)
 

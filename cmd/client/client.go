@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/Ostmind/multiplicator/internal/client/helpers"
 	"math/rand"
 
 	"github.com/Ostmind/multiplicator/internal/client/httprequest"
@@ -9,7 +10,6 @@ import (
 
 func main() {
 	n := 5 + rand.Intn(25)
-	sum := 0.0
 
 	requestURL := fmt.Sprintf("http://localhost:%d/get", 64333)
 
@@ -26,14 +26,7 @@ func main() {
 
 		multSequence[i] = httprequest.MakeRequest(requestURL)
 
-		if sequence[i] >= multSequence[i] {
-			sequence[i] = 0
-		}
-
-		fmt.Println(sequence[i], " ", multSequence[i])
-
-		sum += sequence[i]
 	}
 
-	fmt.Println("RTP:", sum/float64(n))
+	fmt.Println("RTP:", helpers.GetRTP(sequence, multSequence))
 }
